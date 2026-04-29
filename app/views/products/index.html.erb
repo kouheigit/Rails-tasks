@@ -1,0 +1,20 @@
+<% content_for :title, "Products" %>
+
+<% if notice.present? %>
+  <%= notice %>
+<% end %>
+
+<%= link_to "New product", new_product_path %>
+
+<% if @products.any? %>
+  <% @products.each do |product| %>
+    <%= product.name %>
+    <%= link_to "Show", product %>
+    <%= link_to "Edit", edit_product_path(product) %>
+    <%= button_to "Destroy", product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+  <% end %>
+
+  <%= paginate @products %>
+<% else %>
+  No products found.
+<% end %>

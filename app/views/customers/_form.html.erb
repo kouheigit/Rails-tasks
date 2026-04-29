@@ -1,47 +1,79 @@
-<%= form_with(model: customer, class: "contents") do |form| %>
+<%= form_with(model: customer, class: "space-y-5") do |form| %>
   <% if customer.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(customer.errors.count, "error") %> prohibited this customer from being saved:</h2>
-
-      <ul class="list-disc ml-6">
-        <% customer.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="rounded-lg border border-[#FECACA] bg-[#FEF2F2] p-4 text-sm text-[#991B1B]">
+      <div class="flex items-start gap-2">
+        <svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-[#EF4444]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <div>
+          <p class="font-semibold"><%= pluralize(customer.errors.count, "件") %>のエラーがあります</p>
+          <ul class="mt-1.5 list-disc space-y-0.5 pl-4">
+            <% customer.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :company_name %>
-    <%= form.text_field :company_name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": customer.errors[:company_name].none?, "border-red-400 focus:outline-red-600": customer.errors[:company_name].any?}] %>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <%= form.label :company_name, "会社名", class: "block text-sm font-medium text-[#374151]" %>
+      <%= form.text_field :company_name,
+            placeholder: "例：freee株式会社",
+            class: ["mt-1.5 block w-full rounded-md border px-3 py-2 text-sm text-[#1F2937] shadow-sm outline-none transition-colors focus:ring-2",
+                    customer.errors[:company_name].none? ? "border-[#D1D5DB] focus:border-[#3085D6] focus:ring-[#DBEAFE]" : "border-[#FCA5A5] focus:border-[#EF4444] focus:ring-[#FEE2E2]"] %>
+      <% if customer.errors[:company_name].any? %>
+        <p class="mt-1 text-xs text-[#EF4444]"><%= customer.errors[:company_name].first %></p>
+      <% end %>
+    </div>
+
+    <div>
+      <%= form.label :contact_name, "担当者名", class: "block text-sm font-medium text-[#374151]" %>
+      <%= form.text_field :contact_name,
+            placeholder: "例：山田 太郎",
+            class: ["mt-1.5 block w-full rounded-md border px-3 py-2 text-sm text-[#1F2937] shadow-sm outline-none transition-colors focus:ring-2",
+                    customer.errors[:contact_name].none? ? "border-[#D1D5DB] focus:border-[#3085D6] focus:ring-[#DBEAFE]" : "border-[#FCA5A5] focus:border-[#EF4444] focus:ring-[#FEE2E2]"] %>
+    </div>
+
+    <div>
+      <%= form.label :contact_email, "メールアドレス", class: "block text-sm font-medium text-[#374151]" %>
+      <%= form.email_field :contact_email,
+            placeholder: "例：yamada@example.com",
+            class: ["mt-1.5 block w-full rounded-md border px-3 py-2 text-sm text-[#1F2937] shadow-sm outline-none transition-colors focus:ring-2",
+                    customer.errors[:contact_email].none? ? "border-[#D1D5DB] focus:border-[#3085D6] focus:ring-[#DBEAFE]" : "border-[#FCA5A5] focus:border-[#EF4444] focus:ring-[#FEE2E2]"] %>
+    </div>
+
+    <div>
+      <%= form.label :phone, "電話番号", class: "block text-sm font-medium text-[#374151]" %>
+      <%= form.text_field :phone,
+            placeholder: "例：03-0000-0000",
+            class: ["mt-1.5 block w-full rounded-md border px-3 py-2 text-sm text-[#1F2937] shadow-sm outline-none transition-colors focus:ring-2",
+                    customer.errors[:phone].none? ? "border-[#D1D5DB] focus:border-[#3085D6] focus:ring-[#DBEAFE]" : "border-[#FCA5A5] focus:border-[#EF4444] focus:ring-[#FEE2E2]"] %>
+    </div>
   </div>
 
-  <div class="my-5">
-    <%= form.label :contact_name %>
-    <%= form.text_field :contact_name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": customer.errors[:contact_name].none?, "border-red-400 focus:outline-red-600": customer.errors[:contact_name].any?}] %>
+  <div>
+    <%= form.label :customer_status, "ステータス", class: "block text-sm font-medium text-[#374151]" %>
+    <%= form.select :customer_status,
+          [["Active（有効）", "active"], ["Inactive（無効）", "inactive"]],
+          {},
+          class: ["mt-1.5 block w-full rounded-md border bg-white px-3 py-2 text-sm text-[#1F2937] shadow-sm outline-none transition-colors focus:ring-2",
+                  customer.errors[:customer_status].none? ? "border-[#D1D5DB] focus:border-[#3085D6] focus:ring-[#DBEAFE]" : "border-[#FCA5A5] focus:border-[#EF4444] focus:ring-[#FEE2E2]"] %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :contact_email %>
-    <%= form.text_field :contact_email, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": customer.errors[:contact_email].none?, "border-red-400 focus:outline-red-600": customer.errors[:contact_email].any?}] %>
+  <div>
+    <%= form.label :memo, "メモ", class: "block text-sm font-medium text-[#374151]" %>
+    <p class="text-xs text-[#9CA3AF]">取引先に関する補足情報を記入できます（任意）</p>
+    <%= form.textarea :memo, rows: 4,
+          placeholder: "自由にメモを入力してください",
+          class: ["mt-1.5 block w-full rounded-md border px-3 py-2 text-sm text-[#1F2937] shadow-sm outline-none transition-colors focus:ring-2",
+                  customer.errors[:memo].none? ? "border-[#D1D5DB] focus:border-[#3085D6] focus:ring-[#DBEAFE]" : "border-[#FCA5A5] focus:border-[#EF4444] focus:ring-[#FEE2E2]"] %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :phone %>
-    <%= form.text_field :phone, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": customer.errors[:phone].none?, "border-red-400 focus:outline-red-600": customer.errors[:phone].any?}] %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :customer_status %>
-    <%= form.text_field :customer_status, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": customer.errors[:customer_status].none?, "border-red-400 focus:outline-red-600": customer.errors[:customer_status].any?}] %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :memo %>
-    <%= form.textarea :memo, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": customer.errors[:memo].none?, "border-red-400 focus:outline-red-600": customer.errors[:memo].any?}] %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  <div class="flex items-center justify-between border-t border-[#F3F4F6] pt-5">
+    <%= link_to "キャンセル", :back, class: "rounded-md border border-[#D1D5DB] bg-white px-4 py-2 text-sm font-medium text-[#374151] shadow-sm hover:bg-[#F9FAFB] transition-colors" %>
+    <%= form.submit class: "cursor-pointer rounded-md bg-[#3085D6] px-6 py-2 text-sm font-bold text-white shadow-sm hover:bg-[#2472C1] transition-colors" %>
   </div>
 <% end %>

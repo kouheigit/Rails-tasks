@@ -41,3 +41,8 @@
 
 # Keep generated workflow local unless the GitHub token has workflow scope.
 /.github/workflows/ci.yml
+
+# npm (added for CSS build tooling)
+/node_modules/
+/package.json
+/package-lock.json

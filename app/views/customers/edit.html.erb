@@ -1,10 +1,26 @@
-<% content_for :title, "Editing customer" %>
+<% content_for :title, "#{@customer.company_name} を編集 | freee" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing customer</h1>
+<div class="mx-auto max-w-2xl space-y-5">
+  <%# Breadcrumb %>
+  <nav class="flex items-center gap-2 text-sm">
+    <%= link_to "取引先", customers_path, class: "text-[#3085D6] hover:underline" %>
+    <svg class="h-3.5 w-3.5 text-[#D1D5DB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+    <%= link_to @customer.company_name, @customer, class: "text-[#3085D6] hover:underline" %>
+    <svg class="h-3.5 w-3.5 text-[#D1D5DB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+    <span class="font-medium text-[#374151]">編集</span>
+  </nav>
 
-  <%= render "form", customer: @customer %>
-
-  <%= link_to "Show this customer", @customer, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to customers", customers_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <div class="rounded-lg border border-[#E5E7EB] bg-white shadow-sm">
+    <div class="border-b border-[#E5E7EB] px-6 py-4">
+      <h1 class="text-base font-bold text-[#1F2937]">取引先を編集</h1>
+      <p class="mt-0.5 text-sm text-[#6B7280]"><%= @customer.company_name %> の情報を変更します。</p>
+    </div>
+    <div class="p-6">
+      <%= render "form", customer: @customer %>
+    </div>
+  </div>
 </div>

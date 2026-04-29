@@ -1,26 +1,28 @@
-<div id="<%= dom_id customer %>" class="w-full sm:w-auto my-5 space-y-5">
+<div id="<%= dom_id customer %>" class="grid gap-5 sm:grid-cols-2">
   <div>
-    <strong class="block font-medium mb-1">Company name:</strong>
-    <%= customer.company_name %>
+    <dt class="text-sm font-bold text-[#58708a]">会社名</dt>
+    <dd class="mt-1 text-sm font-black text-[#16324f]"><%= customer.company_name %></dd>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Contact name:</strong>
-    <%= customer.contact_name %>
+    <dt class="text-sm font-bold text-[#58708a]">担当者</dt>
+    <dd class="mt-1 text-sm text-[#16324f]"><%= customer.contact_name %></dd>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Contact email:</strong>
-    <%= customer.contact_email %>
+    <dt class="text-sm font-bold text-[#58708a]">メール</dt>
+    <dd class="mt-1 text-sm text-[#16324f]"><%= customer.contact_email %></dd>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Phone:</strong>
-    <%= customer.phone %>
+    <dt class="text-sm font-bold text-[#58708a]">電話番号</dt>
+    <dd class="mt-1 text-sm text-[#16324f]"><%= customer.phone.presence || "-" %></dd>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Customer status:</strong>
-    <%= customer.customer_status %>
+    <dt class="text-sm font-bold text-[#58708a]">ステータス</dt>
+    <dd class="mt-1">
+      <span class="inline-flex rounded-full bg-[#eaf8ef] px-3 py-1 text-xs font-black text-[#16803a] ring-1 ring-[#bfe6c8]"><%= customer.customer_status %></span>
+    </dd>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Memo:</strong>
-    <%= customer.memo %>
+  <div class="sm:col-span-2">
+    <dt class="text-sm font-bold text-[#58708a]">メモ</dt>
+    <dd class="mt-1 text-sm leading-6 text-[#16324f]"><%= customer.memo.presence || "-" %></dd>
   </div>
 </div>
