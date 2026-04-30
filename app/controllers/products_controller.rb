@@ -3,7 +3,14 @@ class ProductsController < ApplicationController
 
   # GET /products or /products.json
   def index
+    name = params[:name]
+
+　　title = params[:title]
+
     @products = Product.select(:id,:name,:code,:category,:price,:stock,:alert_threshold,:is_active,:description)
+    @products = @products.where("name LIKE ?", "%#{name}%") if name.present?
+
+    @products = @products
     .order(id: :desc)
     .page(params[:page])
     .per(20)

@@ -20,3 +20,26 @@ Faker::Config.locale = "ja"
     memo: Faker::Lorem.sentence
   )
 end
+
+categories = ["食品", "日用品", "電化製品", "衣類", "その他"]
+product_names = [
+  "米", "食パン", "牛乳", "卵", "りんご",
+  "洗剤", "シャンプー", "歯ブラシ", "ティッシュ", "タオル",
+  "イヤホン", "キーボード", "マウス", "電気ケトル", "LEDライト",
+  "Tシャツ", "パーカー", "靴下", "ジャケット", "帽子"
+]
+
+100.times do |i|
+  number = i + 1
+  category = categories[i % categories.length]
+
+  Product.find_or_create_by!(code: format("PRD%03d", number)) do |product|
+    product.name = "#{product_names[i % product_names.length]} #{number}"
+    product.category = category
+    product.price = Faker::Number.between(from: 100, to: 50_000)
+    product.stock = Faker::Number.between(from: 0, to: 100)
+    product.alert_threshold = Faker::Number.between(from: 5, to: 20)
+    product.is_active = Faker::Boolean.boolean(true_ratio: 0.85)
+    product.description = Faker::Lorem.sentence
+  end
+end
