@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_30_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_30_011000) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "company_name"
     t.string "contact_email"
@@ -32,15 +32,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_000000) do
 
   create_table "products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "alert_threshold", null: false
-    t.string "category", null: false
     t.string "code", null: false
     t.datetime "created_at", null: false
     t.text "description"
     t.boolean "is_active", null: false
     t.string "name", null: false
     t.integer "price", null: false
+    t.bigint "product_category_id", null: false
     t.integer "stock", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_products_on_code", unique: true
+    t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
+
+  add_foreign_key "products", "product_categories"
 end

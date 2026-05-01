@@ -1,9 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  code: MyString
+  code: PRD001
   name: MyString
-  category: MyString
+  product_category: food
   price: 1
   stock: 1
   alert_threshold: 1
@@ -11,9 +11,9 @@ one:
   description: MyText
 
 two:
-  code: MyString
+  code: PRD002
   name: MyString
-  category: MyString
+  product_category: daily_goods
   price: 1
   stock: 1
   alert_threshold: 1

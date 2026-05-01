@@ -17,7 +17,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create product" do
     assert_difference("Product.count") do
-      post products_url, params: { product: { alert_threshold: @product.alert_threshold, category: @product.category, code: @product.code, description: @product.description, is_active: @product.is_active, name: @product.name, price: @product.price, stock: @product.stock } }
+      post products_url, params: { product: { alert_threshold: @product.alert_threshold, code: "NEWCODE", description: @product.description, is_active: @product.is_active, name: @product.name, price: @product.price, product_category_id: @product.product_category_id, stock: @product.stock } }
     end
 
     assert_redirected_to product_url(Product.last)
@@ -34,7 +34,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update product" do
-    patch product_url(@product), params: { product: { alert_threshold: @product.alert_threshold, category: @product.category, code: @product.code, description: @product.description, is_active: @product.is_active, name: @product.name, price: @product.price, stock: @product.stock } }
+    patch product_url(@product), params: { product: { alert_threshold: @product.alert_threshold, code: @product.code, description: @product.description, is_active: @product.is_active, name: @product.name, price: @product.price, product_category_id: @product.product_category_id, stock: @product.stock } }
     assert_redirected_to product_url(@product)
   end
 

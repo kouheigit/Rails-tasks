@@ -37,12 +37,13 @@ products_by_category = {
 100.times do |i|
   number = i + 1
   category = categories[i % categories.length]
+  product_category = ProductCategory.find_by!(name: category)
   product_names = products_by_category[category]
   product_name = product_names[(number - 1) / categories.length % product_names.length]
 
   Product.find_or_create_by!(code: format("PRD%03d", number)) do |product|
     product.name = "#{product_name} #{number}"
-    product.category = category
+    product.product_category = product_category
     product.price = Faker::Number.between(from: 100, to: 50_000)
     product.stock = Faker::Number.between(from: 0, to: 100)
     product.alert_threshold = Faker::Number.between(from: 5, to: 20)

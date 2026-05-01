@@ -8,17 +8,15 @@
 
 <div>
   <%= form_with url: products_path, method: :get, local: true do %>
-    <input type="text" name="title">
+    <input type="text" name="title" value="<%= params[:title] %>">
 
 <label for="select">項目を選択したください:</label>
-<select name="select">
+<select name="product_category_id" id="select">
   <option value="">--選択肢:--</option>
   <option value=0>全て</option>
-  <option value=1>食品</option>
-  <option value=2>日用品</option>
-  <option value=3>電化製品</option>
-  <option value=4>衣類</option>
-  <option value=5>その他</option>
+  <% @product_categories.each do |category| %>
+    <option value="<%= category.id %>" <%= "selected" if params[:product_category_id].to_s == category.id.to_s %>><%= category.name %></option>
+  <% end %>
 </select>
 
     <button type="submit">送信</button>

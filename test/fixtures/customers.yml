@@ -3,7 +3,7 @@
 one:
   company_name: MyString
   contact_name: MyString
-  contact_email: MyString
+  contact_email: customer1@example.com
   phone: MyString
   customer_status: MyString
   memo: MyText
@@ -11,7 +11,7 @@ one:
 two:
   company_name: MyString
   contact_name: MyString
-  contact_email: MyString
+  contact_email: customer2@example.com
   phone: MyString
   customer_status: MyString
   memo: MyText

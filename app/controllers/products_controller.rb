@@ -3,17 +3,20 @@ class ProductsController < ApplicationController
 
   # GET /products or /products.json
   def index
-    name = params[:name]
+    title = params[:title]
+    product_category_id = params[:product_category_id]
 
-　　title = params[:title]
-
-    @products = Product.select(:id,:name,:code,:category,:price,:stock,:alert_threshold,:is_active,:description)
-    @products = @products.where("name LIKE ?", "%#{name}%") if name.present?
+    @product_categories = ProductCategory.order(:id)
+    @products = Product.includes(:product_category)
+    @products = @products.where("name LIKE ?", "%#{title}%") if title.present?
+    @products = @products.where(product_category_id: product_category_id) if product_category_id.present? && product_category_id != "0"
 
     @products = @products
     .order(id: :desc)
     .page(params[:page])
     .per(20)
+
+    render :index, layout: false
   end
 
   # GET /products/1 or /products/1.json
@@ -75,6 +78,6 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.expect(product: [ :code, :name, :category, :price, :stock, :alert_threshold, :is_active, :description ])
+      params.expect(product: [ :code, :name, :product_category_id, :price, :stock, :alert_threshold, :is_active, :description ])
     end
 end
