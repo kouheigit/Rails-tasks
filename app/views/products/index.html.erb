@@ -182,7 +182,7 @@
         <% if @products.any? %>
           <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             <% @products.each do |product| %>
-              <div class="bg-white border border-[#DDD] rounded hover:shadow-lg transition-shadow flex flex-col <%= 'opacity-70' unless product.is_active? %>">
+              <div class="bg-white border border-[#DDD] rounded hover:shadow-xl hover:border-[#FF9900]/40 transition-all duration-200 flex flex-col group <%= 'opacity-70' unless product.is_active? %>">
                 <%# Product Image Area %>
                 <div class="h-[160px] bg-[#F7F8F8] flex items-center justify-center border-b border-[#DDD] rounded-t relative overflow-hidden group-hover:bg-white transition-colors">
                   <%# Status badge %>
@@ -283,7 +283,7 @@
                   <%# Action Buttons %>
                   <div class="flex flex-col gap-1.5 mt-auto">
                     <%= link_to "詳細を見る", product_path(product),
-                      class: "block text-center bg-[#FF9900] hover:bg-[#FF8F00] active:bg-[#E47911] text-[#0F1111] text-xs font-bold py-2 rounded border border-[#A88734] shadow-sm transition-colors" %>
+                      class: "block text-center bg-[#FF9900] hover:bg-[#FF8F00] active:bg-[#E47911] text-[#0F1111] text-xs font-bold py-2 rounded border border-[#A88734] shadow-sm transition-colors group-hover:shadow-md" %>
                     <div class="flex gap-1">
                       <%= link_to "編集", edit_product_path(product),
                         class: "flex-1 text-center bg-white hover:bg-[#F7F8F8] text-[#0F1111] text-xs py-1.5 rounded border border-[#D5D9D9] shadow-sm transition-colors" %>
