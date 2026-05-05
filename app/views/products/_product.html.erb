@@ -1,51 +1,82 @@
-<div id="<%= dom_id product %>">
-  <div>
-    <strong>ID:</strong>
-    <%= product.id %>
+<div id="<%= dom_id product %>" class="bg-white border border-[#DDD] rounded">
+  <%# Header: Code and status %>
+  <div class="flex items-center justify-between px-4 py-3 bg-[#F7F8F8] border-b border-[#DDD] rounded-t">
+    <span class="font-mono text-xs text-[#555] bg-white border border-[#D5D9D9] px-2 py-0.5 rounded">
+      <%= product.code %>
+    </span>
+    <% if product.is_active? %>
+      <span class="inline-flex items-center gap-1 text-xs font-medium text-[#067D62]">
+        <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        販売中
+      </span>
+    <% else %>
+      <span class="inline-flex items-center gap-1 text-xs font-medium text-[#555]">
+        <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+        </svg>
+        販売停止
+      </span>
+    <% end %>
   </div>
-  <div>
-    <strong>商品コード:</strong>
-    <%= product.code %>
-  </div>
-  <div>
-    <strong>商品名:</strong>
-    <%= product.name %>
-  </div>
-  <div>
-    <strong>商品カテゴリー:</strong>
-    <%= product.product_category.name %>
-  </div>
-  <div>
-    <strong>商品価格:</strong>
-    <%= product.price %>
-  </div>
-  <div>
-    <strong>在庫数:</strong>
-    <%= product.stock %>
-  </div>
-  <div>
-    <strong>在庫状況:</strong>
-    <%= product.status_label %>
-  </div>
-  <div>
-    <strong>在庫アラート:</strong>
-    <%= product.alert_threshold %>
-  </div>
-  <div>
-    <strong>販売状態:</strong>
-    <%= product.is_active? ? "有効" : "停止中" %>
-  </div>
-  <div>
-    <strong>商品説明:</strong>
-    <%= product.description %>
-  </div>
- <div>
-  <strong>作成日時:</strong>
-  <%= product.created_at.strftime("%Y年%m月%d日 %H:%M") %>
-</div>
 
-<div>
-  <strong>更新日時:</strong>
-  <%= product.updated_at.strftime("%Y年%m月%d日 %H:%M") %>
-</div>
+  <%# Product info body %>
+  <div class="p-5">
+    <%# Name & category %>
+    <div class="mb-4">
+      <h2 class="text-lg font-medium text-[#0F1111] mb-1"><%= product.name %></h2>
+      <span class="text-xs text-[#0066C0]"><%= product.product_category.name %></span>
+    </div>
+
+    <%# Specs grid %>
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <div class="bg-[#F7F8F8] rounded p-3 border border-[#F0F0F0]">
+        <div class="text-[10px] text-[#999] uppercase tracking-wide mb-0.5">価格</div>
+        <div class="text-lg font-bold text-[#CC0C39]">￥<%= number_with_delimiter(product.price) %></div>
+        <div class="text-[10px] text-[#555]">税込</div>
+      </div>
+      <div class="bg-[#F7F8F8] rounded p-3 border border-[#F0F0F0]">
+        <div class="text-[10px] text-[#999] uppercase tracking-wide mb-0.5">在庫数</div>
+        <div class="text-lg font-bold <%= product.stock <= product.alert_threshold ? 'text-[#CC0C39]' : 'text-[#067D62]' %>">
+          <%= product.stock %><span class="text-sm">点</span>
+        </div>
+        <div class="text-[10px] text-[#555]">アラート: <%= product.alert_threshold %>点</div>
+      </div>
+    </div>
+
+    <%# Stock status bar %>
+    <div class="mb-4">
+      <div class="flex items-center justify-between text-xs text-[#555] mb-1">
+        <span>在庫状況</span>
+        <span class="font-medium">
+          <% if !product.is_active? %>
+            <span class="text-[#555]">停止中</span>
+          <% elsif product.stock <= product.alert_threshold %>
+            <span class="text-[#CC0C39]">要補充</span>
+          <% else %>
+            <span class="text-[#067D62]">正常</span>
+          <% end %>
+        </span>
+      </div>
+      <div class="h-1.5 bg-[#F0F0F0] rounded-full overflow-hidden">
+        <% percentage = product.alert_threshold > 0 ? [(product.stock.to_f / (product.alert_threshold * 3) * 100).round, 100].min : 100 %>
+        <div class="h-full rounded-full transition-all <%= product.stock <= product.alert_threshold ? 'bg-[#CC0C39]' : 'bg-[#067D62]' %>"
+             style="width: <%= percentage %>%"></div>
+      </div>
+    </div>
+
+    <%# Description %>
+    <% if product.description.present? %>
+      <div class="mb-4 pb-4 border-b border-[#F0F0F0]">
+        <p class="text-sm text-[#555] leading-relaxed line-clamp-3"><%= product.description %></p>
+      </div>
+    <% end %>
+
+    <%# Timestamps %>
+    <div class="text-xs text-[#999] space-y-0.5">
+      <div>登録日時: <%= product.created_at.strftime("%Y年%m月%d日 %H:%M") %></div>
+      <div>更新日時: <%= product.updated_at.strftime("%Y年%m月%d日 %H:%M") %></div>
+    </div>
+  </div>
 </div>
