@@ -199,9 +199,11 @@
 
                   <%# Price %>
                   <div class="mb-1">
-                    <span class="text-[#CC0C39] text-lg font-bold">
-                      ￥<%= number_with_delimiter(product.price) %>
-                    </span>
+                    <div class="flex items-baseline gap-1.5">
+                      <span class="text-xs text-[#555]">￥</span>
+                      <span class="text-[#CC0C39] text-xl font-bold leading-none"><%= number_with_delimiter(product.price) %></span>
+                    </div>
+                    <div class="text-[10px] text-[#555] mt-0.5">税込価格</div>
                   </div>
 
                   <%# Stock info %>
