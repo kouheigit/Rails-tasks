@@ -1,13 +1,213 @@
-<% content_for :title, "Showing product" %>
+<% content_for :title, "#{@product.name} | Amazon管理" %>
 
-<% if notice.present? %>
-  <p id="notice"><%= notice %></p>
-<% end %>
+<div class="bg-[#EAEDED] min-h-full">
+  <%# Breadcrumb %>
+  <div class="bg-white border-b border-[#DDD] px-6 py-2">
+    <nav class="text-xs">
+      <span class="text-[#0066C0] hover:text-[#C45500] cursor-pointer">ホーム</span>
+      <span class="mx-1 text-[#555]">›</span>
+      <%= link_to "商品管理", products_path, class: "text-[#0066C0] hover:text-[#C45500]" %>
+      <span class="mx-1 text-[#555]">›</span>
+      <span class="text-[#555]"><%= @product.product_category.name %></span>
+      <span class="mx-1 text-[#555]">›</span>
+      <span class="text-[#555] font-medium"><%= @product.name %></span>
+    </nav>
+  </div>
 
-<h1>商品情報詳細</h1>
+  <% if notice.present? %>
+    <div class="bg-[#F7FCF7] border border-[#067D62] text-[#067D62] px-6 py-3 text-sm flex items-center gap-2">
+      <svg class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+      </svg>
+      <%= notice %>
+    </div>
+  <% end %>
 
-<%= render @product %>
+  <div class="max-w-[1200px] mx-auto px-4 py-5">
+    <div class="flex gap-5">
 
-<%= link_to "この商品情報を編集する", edit_product_path(@product) %>
-<%= link_to "商品一覧に戻る", products_path %>
-<%= button_to "この商品情報を削除する", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+      <%# Left: Product Image Panel %>
+      <div class="w-[340px] flex-shrink-0">
+        <div class="bg-white border border-[#DDD] rounded p-6">
+          <%# Main image %>
+          <div class="h-[300px] bg-[#F7F8F8] flex items-center justify-center rounded border border-[#EEE] mb-4">
+            <div class="text-center">
+              <svg class="h-24 w-24 text-[#CCCCCC] mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+              </svg>
+              <span class="text-sm font-mono text-[#999] bg-[#F0F0F0] px-2 py-1 rounded"><%= @product.code %></span>
+            </div>
+          </div>
+          <%# Thumbnail row %>
+          <div class="flex gap-2 justify-center">
+            <% 4.times do %>
+              <div class="h-14 w-14 bg-[#F7F8F8] border border-[#DDD] rounded flex items-center justify-center cursor-pointer hover:border-[#FF9900] transition-colors">
+                <svg class="h-6 w-6 text-[#CCCCCC]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                </svg>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <%# Center: Product Details %>
+      <div class="flex-1 min-w-0">
+        <div class="bg-white border border-[#DDD] rounded p-5">
+          <%# Category & status %>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs text-[#0066C0] hover:text-[#C45500] cursor-pointer"><%= @product.product_category.name %></span>
+            <span class="text-[#CCC]">›</span>
+            <% if @product.is_active? %>
+              <span class="text-xs text-[#067D62] font-medium">販売中</span>
+            <% else %>
+              <span class="text-xs text-[#555] font-medium">販売停止</span>
+            <% end %>
+          </div>
+
+          <%# Product title %>
+          <h1 class="text-xl font-medium text-[#0F1111] leading-tight mb-3">
+            <%= @product.name %>
+          </h1>
+
+          <%# Rating row %>
+          <div class="flex items-center gap-3 pb-3 border-b border-[#F0F0F0] mb-4">
+            <div class="flex items-center gap-1">
+              <div class="flex text-[#FF9900] text-sm">
+                <% stars = @product.is_active? ? (@product.stock > @product.alert_threshold * 2 ? 5 : @product.stock > @product.alert_threshold ? 4 : 3) : 2 %>
+                <% stars.times do %><span>★</span><% end %>
+                <% (5 - stars).times do %><span class="text-[#CCC]">★</span><% end %>
+              </div>
+              <span class="text-sm text-[#0066C0] hover:text-[#C45500] cursor-pointer ml-1"><%= stars %>.0</span>
+            </div>
+            <span class="text-[#CCC]">|</span>
+            <span class="text-sm text-[#0066C0] hover:text-[#C45500] cursor-pointer">在庫状況レポートを見る</span>
+            <% if @product.is_active? %>
+              <span class="text-[10px] font-bold text-[#00A8E0] border border-[#00A8E0] px-1.5 py-0.5 rounded leading-none">prime</span>
+            <% end %>
+          </div>
+
+          <%# Price section %>
+          <div class="mb-4 pb-4 border-b border-[#F0F0F0]">
+            <div class="flex items-baseline gap-1">
+              <span class="text-sm text-[#555]">価格:</span>
+              <span class="text-xs text-[#555]">￥</span>
+              <span class="text-2xl font-bold text-[#CC0C39]"><%= number_with_delimiter(@product.price) %></span>
+            </div>
+            <p class="text-xs text-[#555] mt-0.5">税込価格 · 配送料は注文確定時に計算されます</p>
+          </div>
+
+          <%# Product specifications %>
+          <div class="space-y-3">
+            <h3 class="text-sm font-bold text-[#0F1111]">商品情報</h3>
+            <table class="w-full text-sm">
+              <tbody class="divide-y divide-[#F0F0F0]">
+                <tr>
+                  <td class="py-2 pr-4 text-[#555] w-1/3">商品コード</td>
+                  <td class="py-2 font-mono text-[#0F1111] font-medium"><%= @product.code %></td>
+                </tr>
+                <tr>
+                  <td class="py-2 pr-4 text-[#555]">カテゴリ</td>
+                  <td class="py-2 text-[#0066C0]"><%= @product.product_category.name %></td>
+                </tr>
+                <tr>
+                  <td class="py-2 pr-4 text-[#555]">在庫アラート閾値</td>
+                  <td class="py-2 text-[#0F1111]"><%= @product.alert_threshold %>点</td>
+                </tr>
+                <tr>
+                  <td class="py-2 pr-4 text-[#555]">登録日</td>
+                  <td class="py-2 text-[#0F1111]"><%= @product.created_at.strftime("%Y年%m月%d日") %></td>
+                </tr>
+                <tr>
+                  <td class="py-2 pr-4 text-[#555]">更新日</td>
+                  <td class="py-2 text-[#0F1111]"><%= @product.updated_at.strftime("%Y年%m月%d日 %H:%M") %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <%# Description %>
+          <% if @product.description.present? %>
+            <div class="mt-4 pt-4 border-t border-[#F0F0F0]">
+              <h3 class="text-sm font-bold text-[#0F1111] mb-2">商品説明</h3>
+              <p class="text-sm text-[#555] leading-relaxed"><%= @product.description %></p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Right: Buy Box %>
+      <div class="w-[240px] flex-shrink-0">
+        <div class="bg-white border border-[#DDD] rounded p-4">
+          <%# Price in buy box %>
+          <div class="mb-3 pb-3 border-b border-[#F0F0F0]">
+            <div class="flex items-baseline gap-0.5">
+              <span class="text-xs text-[#555]">￥</span>
+              <span class="text-2xl font-bold text-[#CC0C39]"><%= number_with_delimiter(@product.price) %></span>
+            </div>
+            <p class="text-xs text-[#555]">税込</p>
+          </div>
+
+          <%# Delivery info %>
+          <div class="mb-3 text-xs text-[#555] space-y-1">
+            <div class="flex items-start gap-1.5">
+              <svg class="h-3.5 w-3.5 text-[#007600] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span>翌日配送 <span class="text-[#007600] font-medium">無料</span></span>
+            </div>
+            <div class="text-[#0066C0]">詳細を確認</div>
+          </div>
+
+          <%# Stock status %>
+          <div class="mb-4 text-sm font-medium">
+            <% if @product.is_active? && @product.stock > @product.alert_threshold %>
+              <span class="text-[#007600]">在庫あり</span>
+            <% elsif @product.is_active? && @product.stock > 0 %>
+              <span class="text-[#CC0C39]">残りわずか(残り<%= @product.stock %>点)</span>
+            <% elsif !@product.is_active? %>
+              <span class="text-[#555]">現在販売しておりません</span>
+            <% else %>
+              <span class="text-[#CC0C39]">在庫切れ</span>
+            <% end %>
+          </div>
+
+          <%# Quantity selector %>
+          <div class="mb-3">
+            <label class="text-xs text-[#555] block mb-1">数量:</label>
+            <select class="w-full border border-[#D5D9D9] rounded px-2 py-1.5 text-sm bg-[#F0F2F2] focus:outline-none focus:border-[#FF9900] focus:ring-1 focus:ring-[#FF9900]">
+              <% [1, 2, 3, 4, 5, 10, 20, 50].each do |qty| %>
+                <option><%= qty %>点</option>
+              <% end %>
+            </select>
+          </div>
+
+          <%# Action buttons %>
+          <%= link_to edit_product_path(@product),
+            class: "block text-center bg-[#FF9900] hover:bg-[#FF8F00] active:bg-[#E47911] text-[#0F1111] text-sm font-bold py-2.5 rounded border border-[#A88734] shadow-sm mb-2 transition-colors" do %>
+            編集する
+          <% end %>
+          <button class="w-full bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#E9B200] text-[#0F1111] text-sm font-bold py-2.5 rounded border border-[#C7A600] shadow-sm mb-3 transition-colors">
+            在庫を補充する
+          </button>
+
+          <%# Seller info %>
+          <div class="text-xs text-[#555] space-y-1 border-t border-[#F0F0F0] pt-3">
+            <div>出品者: <span class="text-[#0066C0]">Amazon管理</span></div>
+            <div>商品コード: <span class="font-mono font-medium text-[#0F1111]"><%= @product.code %></span></div>
+          </div>
+        </div>
+
+        <%# Navigation links %>
+        <div class="bg-white border border-[#DDD] rounded p-4 mt-3 space-y-2">
+          <%= link_to "← 商品一覧に戻る", products_path,
+            class: "block text-sm text-[#0066C0] hover:text-[#C45500] hover:underline" %>
+          <%= button_to "この商品を削除", @product, method: :delete,
+            data: { turbo_confirm: "「#{@product.name}」を削除しますか？この操作は取り消せません。" },
+            class: "block w-full text-left text-sm text-[#CC0C39] hover:text-[#B00020] hover:underline cursor-pointer bg-transparent border-0 p-0" %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
