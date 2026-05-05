@@ -181,12 +181,20 @@
                       class: "hover:text-[#C45500] hover:underline" %>
                   </h3>
 
-                  <%# Rating stars (decorative) %>
-                  <div class="flex items-center gap-1 mb-1.5">
-                    <div class="flex text-[#FF9900] text-xs">
-                      <span>★★★★</span><span class="text-[#CCC]">★</span>
+                  <%# Rating stars + Prime badge %>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <div class="flex items-center gap-1">
+                      <div class="flex text-[#FF9900] text-xs leading-none">
+                        <%# Star rating based on stock health %>
+                        <% stars = product.is_active? ? (product.stock > product.alert_threshold * 2 ? 5 : product.stock > product.alert_threshold ? 4 : 3) : 2 %>
+                        <% stars.times do %><span>★</span><% end %>
+                        <% (5 - stars).times do %><span class="text-[#CCC]">★</span><% end %>
+                      </div>
+                      <span class="text-xs text-[#0066C0] hover:text-[#C45500] cursor-pointer">(<%= product.stock %>)</span>
                     </div>
-                    <span class="text-xs text-[#0066C0]">(在庫管理)</span>
+                    <% if product.is_active? %>
+                      <span class="text-[10px] font-bold text-[#00A8E0] border border-[#00A8E0] px-1 py-0.5 rounded leading-none">prime</span>
+                    <% end %>
                   </div>
 
                   <%# Price %>
