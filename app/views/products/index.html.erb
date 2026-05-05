@@ -12,6 +12,34 @@
     </nav>
   </div>
 
+  <%# Dashboard summary bar %>
+  <div class="bg-[#232F3E] px-6 py-3">
+    <div class="max-w-[1400px] mx-auto flex items-center gap-6">
+      <div class="flex items-center gap-2 text-white">
+        <svg class="h-4 w-4 text-[#FF9900]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+        </svg>
+        <span class="text-xs font-bold">在庫サマリー</span>
+      </div>
+      <div class="flex items-center gap-1 text-xs text-[#CCCCCC]">
+        <span class="text-white font-bold"><%= @products.count %></span>
+        <span>件の商品</span>
+      </div>
+      <div class="flex items-center gap-1 text-xs text-[#CCCCCC]">
+        <span class="text-[#CC0C39] font-bold"><%= @products.count { |p| p.is_active? && p.stock <= p.alert_threshold } %></span>
+        <span>件 要補充</span>
+      </div>
+      <div class="flex items-center gap-1 text-xs text-[#CCCCCC]">
+        <span class="text-[#555] font-bold"><%= @products.count { |p| !p.is_active? } %></span>
+        <span>件 停止中</span>
+      </div>
+      <div class="flex items-center gap-1 text-xs text-[#CCCCCC]">
+        <span class="text-[#067D62] font-bold"><%= @products.count { |p| p.is_active? && p.stock > p.alert_threshold } %></span>
+        <span>件 正常</span>
+      </div>
+    </div>
+  </div>
+
   <div class="max-w-[1400px] mx-auto px-4 py-4">
     <div class="flex gap-4">
       <%# Left Filter Sidebar %>
