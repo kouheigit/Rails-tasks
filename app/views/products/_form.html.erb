@@ -1,57 +1,150 @@
 <%= form_with(model: product) do |form| %>
+  <%# Error messages %>
   <% if product.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
-
-      <ul>
-        <% product.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="bg-[#FFF5F5] border border-[#CC0C39] rounded p-4 mb-5">
+      <div class="flex items-start gap-3">
+        <svg class="h-5 w-5 text-[#CC0C39] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+        <div>
+          <h3 class="text-sm font-bold text-[#CC0C39] mb-1">
+            <%= product.errors.count %>件のエラーがあります
+          </h3>
+          <ul class="space-y-0.5">
+            <% product.errors.each do |error| %>
+              <li class="text-xs text-[#CC0C39]">• <%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :商品コード %>
-    <%= form.text_field :code %>
-  </div>
+  <%# Form sections %>
+  <div class="space-y-6">
 
-  <div>
-    <%= form.label :商品名 %>
-    <%= form.text_field :name %>
-  </div>
+    <%# Basic Information %>
+    <div class="bg-white border border-[#DDD] rounded">
+      <div class="px-5 py-3 bg-[#F7F8F8] border-b border-[#DDD] rounded-t">
+        <h3 class="text-sm font-bold text-[#0F1111]">基本情報</h3>
+      </div>
+      <div class="p-5 space-y-4">
 
-  <div>
-    <%= form.label :商品カテゴリー %>
-    <%= form.collection_select :product_category_id, ProductCategory.order(:id), :id, :name %>
-  </div>
+        <%# Product code %>
+        <div>
+          <label class="block text-sm font-medium text-[#0F1111] mb-1">
+            商品コード
+            <span class="text-[#CC0C39] ml-0.5">*</span>
+          </label>
+          <%= form.text_field :code,
+            class: "w-full border border-[#D5D9D9] rounded px-3 py-2 text-sm text-[#0F1111] focus:outline-none focus:border-[#FF9900] focus:ring-2 focus:ring-[#FF9900]/30 transition-colors font-mono",
+            placeholder: "例: PROD-001" %>
+          <p class="text-xs text-[#555] mt-1">半角英数字・ハイフン使用可。50文字以内。</p>
+        </div>
 
-  <div>
-    <%= form.label :商品価格 %>
-    <%= form.number_field :price %>
-  </div>
+        <%# Product name %>
+        <div>
+          <label class="block text-sm font-medium text-[#0F1111] mb-1">
+            商品名
+            <span class="text-[#CC0C39] ml-0.5">*</span>
+          </label>
+          <%= form.text_field :name,
+            class: "w-full border border-[#D5D9D9] rounded px-3 py-2 text-sm text-[#0F1111] focus:outline-none focus:border-[#FF9900] focus:ring-2 focus:ring-[#FF9900]/30 transition-colors",
+            placeholder: "商品名を入力してください" %>
+        </div>
 
-  <div>
-    <%= form.label :在庫 %>
-    <%= form.number_field :stock %>
-  </div>
+        <%# Category %>
+        <div>
+          <label class="block text-sm font-medium text-[#0F1111] mb-1">
+            商品カテゴリ
+            <span class="text-[#CC0C39] ml-0.5">*</span>
+          </label>
+          <%= form.collection_select :product_category_id,
+            ProductCategory.order(:id), :id, :name,
+            { prompt: "カテゴリを選択してください" },
+            class: "w-full border border-[#D5D9D9] rounded px-3 py-2 text-sm text-[#0F1111] focus:outline-none focus:border-[#FF9900] focus:ring-2 focus:ring-[#FF9900]/30 transition-colors bg-white" %>
+        </div>
 
-  <div>
-    <%= form.label :在庫アラート %>
-    <%= form.number_field :alert_threshold %>
-  </div>
+        <%# Description %>
+        <div>
+          <label class="block text-sm font-medium text-[#0F1111] mb-1">商品説明</label>
+          <%= form.textarea :description, rows: 4,
+            class: "w-full border border-[#D5D9D9] rounded px-3 py-2 text-sm text-[#0F1111] focus:outline-none focus:border-[#FF9900] focus:ring-2 focus:ring-[#FF9900]/30 transition-colors resize-y",
+            placeholder: "商品の詳細説明を入力してください（任意）" %>
+        </div>
+      </div>
+    </div>
 
-  <div>
-    <%= form.label :販売状態 %>
-    <%= form.checkbox :is_active %>
-  </div>
+    <%# Pricing & Inventory %>
+    <div class="bg-white border border-[#DDD] rounded">
+      <div class="px-5 py-3 bg-[#F7F8F8] border-b border-[#DDD] rounded-t">
+        <h3 class="text-sm font-bold text-[#0F1111]">価格・在庫情報</h3>
+      </div>
+      <div class="p-5">
+        <div class="grid grid-cols-3 gap-4">
+          <%# Price %>
+          <div>
+            <label class="block text-sm font-medium text-[#0F1111] mb-1">
+              価格（円）
+              <span class="text-[#CC0C39] ml-0.5">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#555]">￥</span>
+              <%= form.number_field :price, min: 0,
+                class: "w-full border border-[#D5D9D9] rounded pl-7 pr-3 py-2 text-sm text-[#0F1111] focus:outline-none focus:border-[#FF9900] focus:ring-2 focus:ring-[#FF9900]/30 transition-colors",
+                placeholder: "0" %>
+            </div>
+          </div>
 
-  <div>
-    <%= form.label :商品説明 %>
-    <%= form.textarea :description, rows: 4 %>
-  </div>
+          <%# Stock %>
+          <div>
+            <label class="block text-sm font-medium text-[#0F1111] mb-1">
+              在庫数
+              <span class="text-[#CC0C39] ml-0.5">*</span>
+            </label>
+            <%= form.number_field :stock, min: 0,
+              class: "w-full border border-[#D5D9D9] rounded px-3 py-2 text-sm text-[#0F1111] focus:outline-none focus:border-[#FF9900] focus:ring-2 focus:ring-[#FF9900]/30 transition-colors",
+              placeholder: "0" %>
+          </div>
 
-  <div>
-    <%= form.submit "送信する" %>
+          <%# Alert threshold %>
+          <div>
+            <label class="block text-sm font-medium text-[#0F1111] mb-1">
+              補充アラート閾値
+              <span class="text-[#CC0C39] ml-0.5">*</span>
+            </label>
+            <%= form.number_field :alert_threshold, min: 0,
+              class: "w-full border border-[#D5D9D9] rounded px-3 py-2 text-sm text-[#0F1111] focus:outline-none focus:border-[#FF9900] focus:ring-2 focus:ring-[#FF9900]/30 transition-colors",
+              placeholder: "10" %>
+            <p class="text-xs text-[#555] mt-1">この数値以下になるとアラート表示</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# Sales status %>
+    <div class="bg-white border border-[#DDD] rounded">
+      <div class="px-5 py-3 bg-[#F7F8F8] border-b border-[#DDD] rounded-t">
+        <h3 class="text-sm font-bold text-[#0F1111]">販売状態</h3>
+      </div>
+      <div class="p-5">
+        <label class="flex items-center gap-3 cursor-pointer group">
+          <%= form.checkbox :is_active, class: "h-4 w-4 accent-[#FF9900] cursor-pointer" %>
+          <div>
+            <span class="text-sm font-medium text-[#0F1111] group-hover:text-[#C45500] transition-colors">
+              この商品を販売中にする
+            </span>
+            <p class="text-xs text-[#555] mt-0.5">チェックを外すと商品一覧で「販売停止」として表示されます</p>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <%# Submit button %>
+    <div class="flex items-center gap-3">
+      <%= form.submit "送信する",
+        class: "bg-[#FF9900] hover:bg-[#FF8F00] active:bg-[#E47911] text-[#0F1111] text-sm font-bold py-2.5 px-8 rounded border border-[#A88734] shadow-sm cursor-pointer transition-colors" %>
+      <span class="text-xs text-[#555]">* は必須項目です</span>
+    </div>
   </div>
 <% end %>
