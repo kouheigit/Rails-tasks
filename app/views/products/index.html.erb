@@ -225,6 +225,17 @@
                     <span>在庫数: <strong class="text-[#0F1111]"><%= product.stock %></strong>点 (アラート: <%= product.alert_threshold %>)</span>
                   </div>
 
+                  <%# Stock progress bar %>
+                  <div class="mb-3">
+                    <% max_stock = [product.stock, product.alert_threshold * 3, 1].max %>
+                    <% fill_pct = [(product.stock.to_f / max_stock * 100).round, 100].min %>
+                    <div class="h-1 bg-[#F0F0F0] rounded-full overflow-hidden">
+                      <div class="h-full rounded-full transition-all
+                        <%= product.stock <= product.alert_threshold ? 'bg-[#CC0C39]' : 'bg-[#067D62]' %>"
+                           style="width: <%= fill_pct %>%"></div>
+                    </div>
+                  </div>
+
                   <%# Action Buttons %>
                   <div class="flex flex-col gap-1.5 mt-auto">
                     <%= link_to "詳細を見る", product_path(product),
