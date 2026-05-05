@@ -60,16 +60,34 @@
           <div class="p-4 space-y-2">
             <label class="flex items-center gap-2 text-sm cursor-pointer group">
               <input type="checkbox" class="accent-[#FF9900]">
-              <span class="text-[#0066C0] group-hover:text-[#C45500]">在庫あり</span>
+              <span class="text-[#0066C0] group-hover:text-[#C45500] group-hover:underline">在庫あり</span>
+              <span class="ml-auto text-xs text-[#999]">(<%= @products.select(&:is_active?).count { |p| p.stock > p.alert_threshold } %>)</span>
             </label>
             <label class="flex items-center gap-2 text-sm cursor-pointer group">
               <input type="checkbox" class="accent-[#FF9900]">
-              <span class="text-[#0066C0] group-hover:text-[#C45500]">残りわずか</span>
+              <span class="text-[#0066C0] group-hover:text-[#C45500] group-hover:underline">残りわずか</span>
+              <span class="ml-auto text-xs text-[#CC0C39]">(<%= @products.count { |p| p.is_active? && p.stock <= p.alert_threshold } %>)</span>
             </label>
             <label class="flex items-center gap-2 text-sm cursor-pointer group">
               <input type="checkbox" class="accent-[#FF9900]">
-              <span class="text-[#0066C0] group-hover:text-[#C45500]">販売停止</span>
+              <span class="text-[#0066C0] group-hover:text-[#C45500] group-hover:underline">販売停止</span>
+              <span class="ml-auto text-xs text-[#999]">(<%= @products.count { |p| !p.is_active? } %>)</span>
             </label>
+          </div>
+        </div>
+
+        <%# Price range filter %>
+        <div class="bg-white border border-[#DDD] rounded mt-3">
+          <div class="px-4 py-3 border-b border-[#DDD]">
+            <h3 class="text-sm font-bold text-[#0F1111]">価格帯</h3>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center gap-2">
+              <input type="number" placeholder="最低" class="w-full border border-[#D5D9D9] rounded px-2 py-1 text-xs focus:outline-none focus:border-[#FF9900] focus:ring-1 focus:ring-[#FF9900]">
+              <span class="text-xs text-[#555]">〜</span>
+              <input type="number" placeholder="最高" class="w-full border border-[#D5D9D9] rounded px-2 py-1 text-xs focus:outline-none focus:border-[#FF9900] focus:ring-1 focus:ring-[#FF9900]">
+            </div>
+            <button class="mt-2 w-full text-xs text-[#0066C0] hover:text-[#C45500] hover:underline text-left">適用する</button>
           </div>
         </div>
       </div>
