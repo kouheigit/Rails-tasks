@@ -145,6 +145,47 @@
         <%# Page Content %>
         <main class="flex-1 overflow-y-auto">
           <%= yield %>
+
+          <%# Amazon-style footer %>
+          <footer class="bg-[#232F3E] mt-8">
+            <div class="bg-[#37475A] py-2 text-center">
+              <a href="#" class="text-xs text-white hover:text-[#FF9900] transition-colors">ページトップへ戻る ▲</a>
+            </div>
+            <div class="px-6 py-6">
+              <div class="grid grid-cols-4 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">商品管理</h4>
+                  <ul class="space-y-1.5">
+                    <%= link_to "商品一覧", products_path, class: "block text-xs text-[#DDD] hover:text-white transition-colors" %>
+                    <%= link_to "新規登録", new_product_path, class: "block text-xs text-[#DDD] hover:text-white transition-colors" %>
+                    <li><a href="#" class="text-xs text-[#DDD] hover:text-white transition-colors">在庫レポート</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">取引先管理</h4>
+                  <ul class="space-y-1.5">
+                    <%= link_to "取引先一覧", customers_path, class: "block text-xs text-[#DDD] hover:text-white transition-colors" %>
+                    <li><a href="#" class="text-xs text-[#DDD] hover:text-white transition-colors">請求書管理</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">ヘルプ</h4>
+                  <ul class="space-y-1.5">
+                    <li><a href="#" class="text-xs text-[#DDD] hover:text-white transition-colors">ヘルプセンター</a></li>
+                    <li><a href="#" class="text-xs text-[#DDD] hover:text-white transition-colors">お問い合わせ</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">Amazon</h4>
+                  <p class="text-xs text-[#DDD]">Amazon出品管理システム</p>
+                  <p class="text-xs text-[#999] mt-1">© 2024 Amazon管理</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-[#131921] py-3 text-center">
+              <p class="text-xs text-[#999]">Amazon管理システム | プライバシー規約 | 利用規約</p>
+            </div>
+          </footer>
         </main>
       </div>
 
