@@ -21,8 +21,14 @@
   <%= product.stock %>
   <%= product.is_active? ?  "有効" : "停止" %>
 
-  
   <%= product.alert_threshold %>
+  
+  <% if product.stock <= product.alert_threshold %>
+   要補充
+  <% else %>
+    正常
+  <%end%>
+
   <%= product.product_category.name%>
   <%= link_to "詳細", product_path(product.id) %>
 <% end %>
