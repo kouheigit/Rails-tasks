@@ -191,6 +191,18 @@
             在庫を補充する
           </button>
 
+          <%# Low stock warning %>
+          <% if @product.is_active? && @product.stock <= @product.alert_threshold %>
+            <div class="bg-[#FFF5F5] border border-[#FFCCCC] rounded p-3 mb-3">
+              <div class="flex items-start gap-2">
+                <svg class="h-4 w-4 text-[#CC0C39] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <p class="text-xs text-[#CC0C39] font-medium">在庫が補充アラート閾値を下回っています。補充をご検討ください。</p>
+              </div>
+            </div>
+          <% end %>
+
           <%# Seller info %>
           <div class="text-xs text-[#555] space-y-1 border-t border-[#F0F0F0] pt-3">
             <div>出品者: <span class="text-[#0066C0]">Amazon管理</span></div>
