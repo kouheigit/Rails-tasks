@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "freee 取引先" %></title>
+    <title><%= content_for(:title) || "Amazon 商品管理" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="freee">
+    <meta name="application-name" content="Amazon管理">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -74,15 +74,9 @@
                 レポート
               </a>
             </li>
-          </ul>
-
-          <div class="mt-6 px-3 mb-2">
-            <p class="px-3 text-[10px] font-bold uppercase tracking-widest text-[#6B7A99]">設定</p>
-          </div>
-          <ul class="space-y-0.5 px-3">
             <li>
-              <a href="#" class="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-[#9EA9BB] hover:bg-white/10 hover:text-white transition-colors">
-                <svg class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-[#CCCCCC] hover:bg-[#37475A] hover:text-white transition-colors border-b border-white/5">
+                <svg class="h-4 w-4 flex-shrink-0 text-[#FF9900]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -95,10 +89,10 @@
         <%# User area %>
         <div class="border-t border-white/10 p-4">
           <div class="flex items-center gap-3">
-            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[#3085D6] text-xs font-bold text-white">U</div>
+            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[#FF9900] text-xs font-bold text-[#0F1111]">管</div>
             <div class="min-w-0">
-              <p class="truncate text-xs font-bold text-white">ユーザー</p>
-              <p class="truncate text-[11px] text-[#9EA9BB]">freee株式会社</p>
+              <p class="truncate text-xs font-bold text-white">管理者</p>
+              <p class="truncate text-[11px] text-[#9EA9BB]">Amazon Seller</p>
             </div>
           </div>
         </div>
@@ -106,30 +100,50 @@
 
       <%# ===== Main Content Area ===== %>
       <div class="flex flex-1 flex-col overflow-hidden">
-        <%# Top Header %>
-        <header class="flex h-14 flex-shrink-0 items-center justify-between border-b border-[#E5E7EB] bg-white px-6">
-          <div class="flex items-center gap-2 text-sm text-[#6B7280]">
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span>取引先管理</span>
+        <%# Amazon Top Header %>
+        <header class="flex-shrink-0 bg-[#131921]">
+          <%# Main header row %>
+          <div class="flex h-12 items-center gap-3 px-4">
+            <%# Search bar %>
+            <div class="flex flex-1 max-w-2xl">
+              <select class="bg-[#F3F3F3] border-r border-[#CDCDCD] text-xs text-[#555] px-2 rounded-l focus:outline-none h-10 min-w-[70px]">
+                <option>すべて</option>
+                <option>商品</option>
+                <option>取引先</option>
+              </select>
+              <input type="text" placeholder="商品・取引先を検索..." class="flex-1 h-10 px-3 text-sm text-[#0F1111] focus:outline-none">
+              <button class="bg-[#FF9900] hover:bg-[#FF8F00] px-3 h-10 rounded-r border border-[#A88734]">
+                <svg class="h-5 w-5 text-[#0F1111]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+              </button>
+            </div>
+            <%# Account & Cart %>
+            <div class="flex items-center gap-4 ml-2">
+              <button class="text-white hover:text-[#FF9900] transition-colors text-left">
+                <div class="text-[10px] text-[#CCCCCC]">アカウント</div>
+                <div class="text-xs font-bold">管理者 ▾</div>
+              </button>
+              <button class="text-white hover:text-[#FF9900] transition-colors flex items-center gap-1">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                <span class="text-xs font-bold">カート</span>
+              </button>
+            </div>
           </div>
-          <div class="flex items-center gap-3">
-            <button class="rounded-full p-2 text-[#6B7280] hover:bg-[#F3F4F6]">
-              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-            </button>
-            <button class="rounded-full p-2 text-[#6B7280] hover:bg-[#F3F4F6]">
-              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </button>
+          <%# Sub navigation bar %>
+          <div class="bg-[#232F3E] flex items-center px-4 py-1.5 gap-5">
+            <a href="#" class="text-xs text-white hover:text-[#FF9900] transition-colors whitespace-nowrap">本日のお得情報</a>
+            <a href="#" class="text-xs text-white hover:text-[#FF9900] transition-colors whitespace-nowrap">新着商品</a>
+            <a href="#" class="text-xs text-white hover:text-[#FF9900] transition-colors whitespace-nowrap">ランキング</a>
+            <a href="#" class="text-xs text-white hover:text-[#FF9900] transition-colors whitespace-nowrap">在庫管理</a>
+            <a href="#" class="text-xs text-white hover:text-[#FF9900] transition-colors whitespace-nowrap">カスタマーサービス</a>
           </div>
         </header>
 
         <%# Page Content %>
-        <main class="flex-1 overflow-y-auto p-6">
+        <main class="flex-1 overflow-y-auto">
           <%= yield %>
         </main>
       </div>
