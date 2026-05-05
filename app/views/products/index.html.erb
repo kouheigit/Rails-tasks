@@ -15,23 +15,27 @@
 </form>
 
 <% @products.each do |product| %>
-  <%= product.code %>
-  <%= product.name %>
-  <%= "#{product.price}円"%>
-  <%= product.stock %>
-  <%= product.is_active? ?  "有効" : "停止" %>
+  <% row_style =
+    if !product.is_active?
+      "background-color: #eeeeee; color: #888888;"
+    elsif product.stock <= product.alert_threshold
+      "background-color: #ffe5e5;"
+    end
+  %>
 
-  <%= product.alert_threshold %>
-  
-  <% if product.stock <= product.alert_threshold %>
-   要補充
-  <% else %>
-    正常
-  <%end%>
-
-  <%= product.product_category.name%>
-  <%= link_to "詳細", product_path(product.id) %>
+  <div style="<%= row_style %>">
+    <%= product.code %>
+    <%= product.name %>
+    <%= "#{product.price}円" %>
+    <%= product.stock %>
+    <%= product.is_active? ? "有効" : "停止中" %>
+    <%= product.alert_threshold %>
+    <%= product.status_label %>
+    <%= product.product_category.name %>
+    <%= link_to "詳細", product_path(product) %>
+    <%= link_to "編集", edit_product_path(product) %>
+    <%= button_to "削除", product, method: :delete, data: { turbo_confirm: "本当に削除しますか？" } %>
+  </div>
 <% end %>
-
 
 

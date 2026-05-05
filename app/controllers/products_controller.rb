@@ -3,15 +3,10 @@ class ProductsController < ApplicationController
 
   # GET /products or /products.json
   def index
-    @products = Product.includes(:product_category).order(id: "DESC")
+    @products = Product.includes(:product_category).order(created_at: "DESC")
     @categories = ProductCategory.all
     
     #検索(外部キーで絞る)
-    if params[:product_category_id].present?
-      @products = @products.where(product_category_id: params[:product_category_id])
-    end
-
-    # 検索（外部キーで絞る）
     if params[:product_category_id].present?
       @products = @products.where(product_category_id: params[:product_category_id])
     end

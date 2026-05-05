@@ -1,5 +1,9 @@
 <div id="<%= dom_id product %>">
   <div>
+    <strong>ID:</strong>
+    <%= product.id %>
+  </div>
+  <div>
     <strong>商品コード:</strong>
     <%= product.code %>
   </div>
@@ -16,7 +20,7 @@
     <%= product.price %>
   </div>
   <div>
-    <strong>在庫:</strong>
+    <strong>在庫状況:</strong>
     <%= product.stock %>
   </div>
   <div>
@@ -25,10 +29,20 @@
   </div>
   <div>
     <strong>販売状態:</strong>
-    <%= product.is_active? ? "Yes" : "No" %>
+    <%= product.is_active? ? "有効" : "停止" %>
   </div>
   <div>
     <strong>商品説明:</strong>
     <%= product.description %>
   </div>
+ <div>
+  <strong>作成日時:</strong>
+  <%= product.created_at.strftime("%Y年%m月%d日 %H:%M") %>
 </div>
+
+<div>
+  <strong>更新日時:</strong>
+  <%= product.updated_at.strftime("%Y年%m月%d日 %H:%M") %>
+</div>
+</div>
+
