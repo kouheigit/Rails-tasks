@@ -206,13 +206,23 @@
                     <div class="text-[10px] text-[#555] mt-0.5">税込価格</div>
                   </div>
 
-                  <%# Stock info %>
-                  <div class="text-xs text-[#555] mb-3">
-                    在庫数:
-                    <span class="font-medium <%= product.stock <= product.alert_threshold ? 'text-[#CC0C39]' : 'text-[#067D62]' %>">
-                      <%= product.stock %>点
-                    </span>
-                    <span class="text-[#999]">/ アラート <%= product.alert_threshold %>点</span>
+                  <%# Stock + delivery info %>
+                  <div class="text-xs text-[#555] mb-1">
+                    <% if product.is_active? && product.stock > product.alert_threshold %>
+                      <span class="text-[#007600] font-medium">在庫あり</span>
+                    <% elsif product.is_active? && product.stock > 0 %>
+                      <span class="text-[#CC0C39] font-medium">残りわずか — 残り <%= product.stock %>点</span>
+                    <% elsif !product.is_active? %>
+                      <span class="text-[#555]">現在販売しておりません</span>
+                    <% else %>
+                      <span class="text-[#CC0C39] font-medium">在庫切れ</span>
+                    <% end %>
+                  </div>
+                  <div class="text-xs text-[#555] mb-3 flex items-center gap-1">
+                    <svg class="h-3 w-3 text-[#007600]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>在庫数: <strong class="text-[#0F1111]"><%= product.stock %></strong>点 (アラート: <%= product.alert_threshold %>)</span>
                   </div>
 
                   <%# Action Buttons %>
