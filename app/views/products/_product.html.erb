@@ -20,8 +20,12 @@
     <%= product.price %>
   </div>
   <div>
-    <strong>在庫状況:</strong>
+    <strong>在庫数:</strong>
     <%= product.stock %>
+  </div>
+  <div>
+    <strong>在庫状況:</strong>
+    <%= product.status_label %>
   </div>
   <div>
     <strong>在庫アラート:</strong>
@@ -29,7 +33,7 @@
   </div>
   <div>
     <strong>販売状態:</strong>
-    <%= product.is_active? ? "有効" : "停止" %>
+    <%= product.is_active? ? "有効" : "停止中" %>
   </div>
   <div>
     <strong>商品説明:</strong>
@@ -45,4 +49,3 @@
   <%= product.updated_at.strftime("%Y年%m月%d日 %H:%M") %>
 </div>
 </div>
-
