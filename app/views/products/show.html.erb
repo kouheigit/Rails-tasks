@@ -4,10 +4,10 @@
   <p id="notice"><%= notice %></p>
 <% end %>
 
-<h1>Showing product</h1>
+<h1>商品情報詳細</h1>
 
 <%= render @product %>
 
-<%= link_to "Edit this product", edit_product_path(@product) %>
-<%= link_to "Back to products", products_path %>
-<%= button_to "Destroy this product", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+<%= link_to "この商品情報を編集する", edit_product_path(@product) %>
+<%= link_to "商品一覧に戻る", products_path %>
+<%= button_to "この商品情報を削除する", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>

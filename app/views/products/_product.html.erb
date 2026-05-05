@@ -1,34 +1,34 @@
 <div id="<%= dom_id product %>">
   <div>
-    <strong>Code:</strong>
+    <strong>商品コード:</strong>
     <%= product.code %>
   </div>
   <div>
-    <strong>Name:</strong>
+    <strong>商品名:</strong>
     <%= product.name %>
   </div>
   <div>
-    <strong>Category:</strong>
+    <strong>商品カテゴリー:</strong>
     <%= product.product_category.name %>
   </div>
   <div>
-    <strong>Price:</strong>
+    <strong>商品価格:</strong>
     <%= product.price %>
   </div>
   <div>
-    <strong>Stock:</strong>
+    <strong>在庫:</strong>
     <%= product.stock %>
   </div>
   <div>
-    <strong>Alert threshold:</strong>
+    <strong>在庫アラート:</strong>
     <%= product.alert_threshold %>
   </div>
   <div>
-    <strong>Is active:</strong>
+    <strong>販売状態:</strong>
     <%= product.is_active? ? "Yes" : "No" %>
   </div>
   <div>
-    <strong>Description:</strong>
+    <strong>商品説明:</strong>
     <%= product.description %>
   </div>
 </div>

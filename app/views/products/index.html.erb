@@ -1,37 +1,29 @@
 <% content_for :title, "Products" %>
+<%= link_to "新規作成", new_product_path %>
 
-<% if notice.present? %>
-  <%= notice %>
+<form method="GET" action="/products">
+  <select name="product_category_id">
+    <option value="">すべて</option>
+    <% @categories.each do |category| %>
+      <option value="<%= category.id %>"
+        <%= "selected" if params[:product_category_id].to_s == category.id.to_s %>>
+        <%= category.name %>
+      </option>
+    <% end %>
+  </select>
+  <input type="submit" value="検索">
+</form>
+
+<% @products.each do |product| %>
+  <%= product.code %>
+  <%= product.name %>
+  <%= "#{product.price}円"%>
+  <%= product.stock %>
+  <%= product.is_active %>
+  <%= product.alert_threshold %>
+  <%= product.product_category.name%>
+  <%= link_to "詳細", product_path(product.id) %>
 <% end %>
 
-<%= link_to "New product", new_product_path %>
 
-<div>
-  <%= form_with url: products_path, method: :get, local: true do %>
-    <input type="text" name="title" value="<%= params[:title] %>">
 
-<label for="select">項目を選択したください:</label>
-<select name="product_category_id" id="select">
-  <option value="">--選択肢:--</option>
-  <option value=0>全て</option>
-  <% @product_categories.each do |category| %>
-    <option value="<%= category.id %>" <%= "selected" if params[:product_category_id].to_s == category.id.to_s %>><%= category.name %></option>
-  <% end %>
-</select>
-
-    <button type="submit">送信</button>
-  <% end %>
-</div>
-
-<% if @products.any? %>
-  <% @products.each do |product| %>
-    <%= product.name %>
-    <%= link_to "Show", product %>
-    <%= link_to "Edit", edit_product_path(product) %>
-    <%= button_to "Destroy", product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-  <% end %>
-
-  <%= paginate @products %>
-<% else %>
-  No products found.
-<% end %>

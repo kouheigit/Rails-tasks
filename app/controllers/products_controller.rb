@@ -3,33 +3,35 @@ class ProductsController < ApplicationController
 
   # GET /products or /products.json
   def index
-    title = params[:title]
-    product_category_id = params[:product_category_id]
+    @products = Product.includes(:product_category).order(id: "DESC")
+    @categories = ProductCategory.all
+    
+    #検索(外部キーで絞る)
+    if params[:product_category_id].present?
+      @products = @products.where(product_category_id: params[:product_category_id])
+    end
 
-    @product_categories = ProductCategory.order(:id)
-    @products = Product.includes(:product_category)
-    @products = @products.where("name LIKE ?", "%#{title}%") if title.present?
-    @products = @products.where(product_category_id: product_category_id) if product_category_id.present? && product_category_id != "0"
-
-    @products = @products
-    .order(id: :desc)
-    .page(params[:page])
-    .per(20)
-
+    # 検索（外部キーで絞る）
+    if params[:product_category_id].present?
+      @products = @products.where(product_category_id: params[:product_category_id])
+    end
     render :index, layout: false
   end
 
   # GET /products/1 or /products/1.json
   def show
+    render layout: false
   end
 
   # GET /products/new
   def new
     @product = Product.new
+    render layout: false
   end
 
   # GET /products/1/edit
   def edit
+    render layout: false
   end
 
   # POST /products or /products.json

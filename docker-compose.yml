@@ -24,6 +24,10 @@ services:
   db:
     image: mysql:latest
     pull_policy: always
+    networks:
+      default:
+        aliases:
+          - mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: rails_tasks_development
