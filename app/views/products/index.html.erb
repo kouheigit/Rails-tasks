@@ -140,25 +140,31 @@
             <% @products.each do |product| %>
               <div class="bg-white border border-[#DDD] rounded hover:shadow-lg transition-shadow flex flex-col <%= 'opacity-70' unless product.is_active? %>">
                 <%# Product Image Area %>
-                <div class="h-[160px] bg-[#F7F8F8] flex items-center justify-center border-b border-[#DDD] rounded-t relative">
+                <div class="h-[160px] bg-[#F7F8F8] flex items-center justify-center border-b border-[#DDD] rounded-t relative overflow-hidden group-hover:bg-white transition-colors">
+                  <%# Status badge %>
                   <% if !product.is_active? %>
-                    <div class="absolute top-2 left-2">
+                    <div class="absolute top-2 left-2 z-10">
                       <span class="bg-[#555] text-white text-[10px] font-bold px-2 py-0.5 rounded">販売停止</span>
                     </div>
                   <% elsif product.stock <= product.alert_threshold %>
-                    <div class="absolute top-2 left-2">
+                    <div class="absolute top-2 left-2 z-10">
                       <span class="bg-[#CC0C39] text-white text-[10px] font-bold px-2 py-0.5 rounded">残りわずか</span>
                     </div>
                   <% else %>
-                    <div class="absolute top-2 left-2">
+                    <div class="absolute top-2 left-2 z-10">
                       <span class="bg-[#067D62] text-white text-[10px] font-bold px-2 py-0.5 rounded">在庫あり</span>
                     </div>
                   <% end %>
+                  <%# Quick view button on hover %>
+                  <div class="absolute inset-0 bg-black/0 hover:bg-black/5 transition-colors flex items-end justify-center pb-2 opacity-0 hover:opacity-100">
+                    <%= link_to "クイックビュー", product_path(product),
+                      class: "text-xs bg-white border border-[#D5D9D9] px-3 py-1 rounded shadow-md text-[#0F1111] hover:bg-[#F7F8F8]" %>
+                  </div>
                   <div class="text-center p-4">
-                    <svg class="h-14 w-14 text-[#CCCCCC] mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                    <svg class="h-16 w-16 text-[#CCCCCC] mx-auto mb-1 transition-transform hover:scale-105" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                     </svg>
-                    <span class="text-[10px] text-[#999] font-mono"><%= product.code %></span>
+                    <span class="text-[10px] text-[#999] font-mono bg-[#EEE] px-1.5 py-0.5 rounded"><%= product.code %></span>
                   </div>
                 </div>
 
